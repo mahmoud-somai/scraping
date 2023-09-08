@@ -23,14 +23,17 @@
 </div>
 
 <div *ngIf="!preloader">
-<h1>URL Scraper</h1>
+<h1 >URL Scraper</h1>
 
 
 
 <form [formGroup]="ScrapingUrls" (ngSubmit)="Scraping()" id="scraping-form" >
-  <label for="url-input">Enter URL to Scrape:</label>
+  <label for="url-input"><h2>Enter URL to Scrape:</h2></label>
   <input type="url" id="url-input" formControlName="url" class="form-control" required>
-  <button type="submit">Scrape URLs</button>
+
+
+
+  <button class="btn_scrap" type="submit"> Scrape URLs  </button>
 
     <div  class="loading" *ngIf="loading">
       <span></span>
@@ -41,16 +44,36 @@
 
 </form>
 
-<div id="result" class="result-div">
-  <ul *ngFor="let item of srcs[1]; let index = index">
-    <li>
-      <a href="{{item}}" target="_blank">{{item}}</a>&nbsp;&nbsp;
-      <button type="button" (click)="toggleScrapedText(index)">Scrape Text</button>
-      <pre *ngIf="scrapedTextVisible[index]">{{ contents[1][0][index] }}</pre>
+<div id="result" class="result-div" *ngIf="!preloader && itemcontent.length > 0">
+  <div *ngFor="let item of itemcontent; let index = index">
+    <ul class="list-group">
+      <h2 >{{ item.label }}:</h2>
+      <li class="list-group-item">
+        <div >
+          {{ item.value }}
+        </div>
+
+      </li>
+
+    </ul>
+
+  </div>
+  <div > <h2>URLS : </h2>
+    <li class="list-group-item"  *ngFor="let i of dataUrls ; let index=index">
+      {{i}}
+      <button class="btn_content" (click)="toggleScrapedText(index)">
+        <span class="shadow"></span>
+        <span class="edge"></span>
+        <span class="front text"> Get Content
+        </span>
+      </button>
+      <p *ngIf="scrapedTextVisible[index]">{{ datacontent[0][index] }}</p>
     </li>
-  </ul>
+  </div>
+  <button class="btn_download" (click)="downloadJSON()">Download JSON</button> &nbsp;&nbsp;
+
+  <!-- Add a button to download TXT -->
+  <button class="btn_download" (click)="downloadTXT()">Download TXT</button>
 </div>
 </div>
-
-
 
